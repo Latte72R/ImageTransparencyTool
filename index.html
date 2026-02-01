@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" href="./favicon.ico">
+    <link rel="stylesheet" href="./template3.css">
+    <link rel="stylesheet" href="./touka2.css">
+    <title>画像透過ツール</title>
+</head>
+
+<body>
+    <header>
+        <h1>画像透過ツール</h1>
+    </header>
+    <div class="wrapper">
+        <article>
+            <div id="drop-zone">
+                <p class="hidariue">画像の読み込み</p>
+                <p class="dropp">画像ファイルをここにドロップ、
+                    <br>または「参照」から読み込めます。
+                </p>
+                <input type="file" id="file-image" accept="image/*">
+            </div>
+            <p id="ctitle">▼作業キャンバス</p>
+            <div id="canvas-zone">
+                <canvas id="mycanvas" width="686" height="340">Canvas対応のブラウザで開いて下さい。</canvas>
+                <canvas id="mycanvas2" width="686" height="340"></canvas>
+                <canvas id="kk" width="686" height="340" aria-hidden="true"></canvas>
+            </div>
+            <div id="img-zone">
+                <p>画像▼&nbsp;&nbsp;右クリックで「名前を付けて保存」
+                    <button type="button" id="tojiru">閉じる</button>
+                </p>
+                <img src="https://www.webtoolss.com/touka.html" id="omoti-img" alt="画像化">
+                <p>
+                    <a id="hozon" class="btn">保存</a>
+                </p>
+            </div>
+            <div id="color-zone">
+                <div class="czone">
+                    <div class="info-grid">
+                        <div class="info-block">
+                            <p class="bb">画像情報</p>
+                            <p id="xy"><span class="pin-title">XY座標</span>X:<code id="x">261</code>&nbsp;&nbsp;Y:<code id="y">101</code></p>
+                            <p><span class="pin-title">サイズ</span><span id="size">横幅：686　高さ：340</span></p>
+                        </div>
+                        <div class="info-block">
+                            <p class="bb" id="top">色情報</p>
+                            <div class="color-row">
+                                <div id="iro-info">
+                                    <label>
+                                        <input type="radio" name="iro" value="rgb" checked="">RGB:&nbsp;&nbsp;<code
+                                            id="rgb">rgb(71,0,0)</code></label>
+                                    <label>
+                                        <input type="radio" name="iro" value="hex">HEX:&nbsp;&nbsp;<code id="hex">#4700</code></label>
+                                    <label>
+                                        <input type="radio" name="iro" value="hsv">HSV:&nbsp;&nbsp;<code id="hsv">0,100,28</code></label>
+                                    <label>
+                                        <input type="radio" name="iro" value="cmyk">CMYK:&nbsp;&nbsp;<code
+                                            id="cmyk">0,100,100,72</code></label>
+                                </div>
+                            </div>
+                        </div>
+                        <p id="search-color" style="background: rgb(255, 255, 255);"></p>
+                    </div>
+                </div>
+                <div class="czone czone-split">
+                    <div id="touka-settei">
+                        <p class="bb">透過設定</p>
+                        <div id="modebox">
+                            <input type="radio" name="radiosample" value="1" id="radiosampleid1" checked="">
+                            <label for="radiosampleid1" class="radio">色指定</label>
+                            <input type="radio" name="radiosample" value="2" id="radiosampleid2">
+                            <label for="radiosampleid2" class="radio">ブラシ</label>
+                        </div>
+                        <div id="mode1">
+                            <div class="label2">色の許容値
+                                <input type="number" name="distance" min="0" max="255" id="distance" value="0">
+                                <div class="slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
+                                    <div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min" style="width: 0%;">
+                                    </div>
+                                    <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 0%;"></span>
+                                </div>
+                            </div>
+                            <label class="check">隣接のみ
+                                <input type="checkbox" name="rinsetu" value="隣接" id="rinsetu">
+                            </label>
+                            <div class="check" id="toumeiL">透明色:<span id="imageb"></span><span id="color"></span>
+                            </div>
+                            <button type="button" id="reset" class="check" title="背景を画像に"></button>
+                        </div>
+                        <div id="mode2">
+                            <div class="fbox">
+                                <p><span class="pin-title">色</span></p>
+                                <div>
+                                    <label>
+                                        <input type="radio" name="iro2" value="destination-out" checked="">透明
+                                    </label>
+                                    <input type="radio" name="iro2" value="source-over">
+                                    <input type="text" id="penColor" value="#ffffff"
+                                        style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">
+                                </div>
+                            </div>
+                            <div class="fbox">
+                                <p><span class="pin-title">太さ</span></p>
+                                <div id="slider2" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
+                                    <div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min"
+                                        style="width: 18.3673%;">
+                                    </div><span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"
+                                        style="left: 18.3673%;"></span>
+                                </div>
+                                <canvas id="canvasWidth" width="50" height="50"></canvas>
+                            </div>
+                            <div class="fbox">
+                                <p><span class="pin-title">形</span></p>
+                                <label class="penlabel">
+                                    <input type="radio" name="katati" checked="" value="pen"><span class="pen-icon pen-round" aria-hidden="true"></span>
+                                    <br>&nbsp;&nbsp;丸ペン</label>
+                                <label class="penlabel">
+                                    <input type="radio" name="katati" value="sikaku"><span class="pen-icon pen-square" aria-hidden="true"></span>
+                                    <br>&nbsp;&nbsp;四角</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="sonota">
+                        <p class="bb">クイック操作</p>
+                        <button id="susumu" type="button" class="btn" disabled="disabled">進む</button>
+                        <button id="modoru" type="button" class="btn" disabled="disabled">戻る</button>
+                        <hr>
+                        <button type="button" class="btn" id="syokika">リセット</button>
+                        <button type="button" class="btn" id="gazouka">画像を書き出し</button>
+                        <hr>
+                        <div class="fbox">
+                            <label class="btn" id="check2">拡大表示
+                                <input type="checkbox" name="kakudai" value="拡大" id="kakudai">
+                            </label>
+                            <label>倍率
+                                <input value="2" name="ka-ritu" min="1" max="20" type="number" id="ka-ritu">
+                            </label>
+                            <div id="ka-ritu2" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
+                                <div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min" style="width: 5.26316%;">
+                                </div>
+                                <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 5.26316%;"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </article>
+    </div>
+    <footer>&copy; 2025 Latte72. All rights reserved.</footer>
+    <link href="./font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/nano.min.css">
+    <script src="./jquery-2.1.4.min.js"></script>
+    <script src="./jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="./jquery-ui.css">
+    <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
+    <script src="./touka2.js"></script>
+    <script src="./toumeiworker.js"></script>
+
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-64353680-1', 'auto');
+        ga('send', 'pageview');
+
+
+        function updateTransparentColor(hex) {
+            $('#color').css('background-color', hex);
+        }
+
+        function updatePenColor(hex) {
+            var pen = $('#penColor');
+            pen.val(hex);
+            pen.css('background-color', hex);
+            pen.trigger('change');
+        }
+
+        var pickrTransparent = Pickr.create({
+            el: '#color',
+            theme: 'nano',
+            useAsButton: true,
+            default: '#ff0000',
+            components: {
+                preview: true,
+                opacity: false,
+                hue: true,
+                interaction: {
+                    hex: true,
+                    input: true,
+                    save: true
+                }
+            }
+        });
+
+        var pickrPen = Pickr.create({
+            el: '#penColor',
+            theme: 'nano',
+            useAsButton: true,
+            default: '#ffffff',
+            components: {
+                preview: true,
+                opacity: false,
+                hue: true,
+                interaction: {
+                    hex: true,
+                    input: true,
+                    save: true
+                }
+            }
+        });
+
+        updateTransparentColor('#ff0000');
+
+        pickrTransparent.on('change', function (color) {
+            if (!color) return;
+            updateTransparentColor(color.toHEXA().toString());
+        }).on('save', function (color) {
+            if (!color) return;
+            updateTransparentColor(color.toHEXA().toString());
+        });
+
+        pickrPen.on('change', function (color) {
+            if (!color) return;
+            updatePenColor(color.toHEXA().toString());
+        }).on('save', function (color) {
+            if (!color) return;
+            updatePenColor(color.toHEXA().toString());
+        });
+    </script>
+
+
+
+</body>
+
+</html>
